@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    
+    <script src="./Rectangle.js"></script>
+    <script src="./Lane.js"></script>
+    <script src="./Log.js"></script>
+    <script src="./Car.js"></script>
+    <script src="./Turtle.js"></script>
+    <script src="./Frog.js"></script>
+    <script src="./Game.js"></script>
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+  </head>
+  <body>
+    
+    <script>
+        
+        let game;
+
+        function setup() {
+            createCanvas(600, 600);
+            
+            game = new Game();
+            game.startNewGame();
+            game.createLevel();
+            
+            
+            
+        
+        }
+
+        function draw() {
+        background(220);
+        
+        //console.log(gameState);
+        
+        if( game.gameState == GAME_STATE_TITLE ) {
+            noStroke();
+            textFont("monospace");
+            
+            textSize(78);    
+            text('NOT FROGGER', 45, 200);
+
+            textSize(36);
+            text('PRESS ENTER', 180, 250);
+            
+            endShape();
+            
+        }
+        else if( game.gameState == GAME_STATE_PLAY || 
+        game.gameState == GAME_STATE_GAMEOVER ) {
+            
+            game.update();
+            game.drawLevel();
+            
+            game.frog.update();
+            game.frog.draw();
+            
+            game.drawSaveFrogs();
+            
+        }
+        else if( game.gameState == GAME_STATE_PAUSE ) { }
+        
+            if( game.gameState == GAME_STATE_GAMEOVER ) {
+                noStroke();
+                textFont("monospace");
+                fill(255);
+                textSize(78);    
+                text('GAME OVER', 90, 200);
+                textSize(36);
+                text('PRESS ENTER', 180, 250);
+                text('TO CONTINUE', 180, 290);
+                
+            }
+            
+            
+            for( let i = 0; i < game.lives ; i++ ) {
+                fill(0,150,0);
+                noStroke();
+                rect( i * 25 + 10, height - 30, 20, 20);     
+            }
+        }
+                
+
+
+        function keyReleased() {
+            game.handleKeyRelease();
+        }
+        
+    </script>
+
+  </body>
+</html>
